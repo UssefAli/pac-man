@@ -1,0 +1,6 @@
+﻿  main.cpp
+D:\cods\c++\first_game\first_game\main.cpp(27,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\cods\c++\first_game\first_game\main.cpp(27,31): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\cods\c++\first_game\first_game\main.cpp(174,30): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\cods\c++\first_game\first_game\main.cpp(700,1): warning C4715: 'isEmptyPlace': not all control paths return a value
+  first_game.vcxproj -> D:\cods\c++\first_game\x64\Debug\first_game.exe
