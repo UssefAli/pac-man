@@ -9,6 +9,8 @@ float collisionThinkness = 2;
 const int noCollisions = 150;
 const int noCoins = 676;
 int pagenum = -1;
+int index = 0;
+
 struct Player {
     Sprite playerSprite;
     int a, s, d, w , pressed;
@@ -84,9 +86,7 @@ struct Player {
         }
         
         playerSprite.setPosition(rect.left, rect.top);
-        move_x = 0;
-        move_y = 0;
-            
+        
     }
 };
 /*
@@ -155,6 +155,7 @@ int main() {
     return 0;
 }
 void gamePlayPage(RenderWindow& window) {
+    bool isColl = true;
     Texture tx;
     tx.loadFromFile("spritesheet.png"); 
     Player player;
@@ -179,16 +180,9 @@ void gamePlayPage(RenderWindow& window) {
     drawPoints(points, sPo);
  
     while (window.isOpen()) {
+        
         Event event;
-        /*
-            float timer = clock.getElapsedTime().asMicroseconds();
-        clock.restart();
-        timer /= 650;
-        if (timer > 20) {
-            timer = 20;
-        }
-        */
-
+        
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) 
                 window.close();                    
@@ -199,26 +193,33 @@ void gamePlayPage(RenderWindow& window) {
         }
         if (Keyboard::isKeyPressed(Keyboard::Key::A)) {
             player.move_x = -2;
+            player.move_y = 0;
         }
         else if (Keyboard::isKeyPressed(Keyboard::Key::D)) {
             player.move_x = 2;
+            player.move_y = 0;
         }
         else if (Keyboard::isKeyPressed(Keyboard::Key::W)) {
             player.move_y = -2;
+            player.move_x = 0;
         }
         else if (Keyboard::isKeyPressed(Keyboard::Key::S)) {
             player.move_y = 2;
+            player.move_x = 0;
         }
-
         player.update();
-
+        
         for (int i = 0; i < noCollisions; i++)
-        {
-            if (player.playerSprite.getGlobalBounds().intersects(blocks[i].getGlobalBounds())) {
-                drawCollision2(blocks[i], player , blockMap[i]);
-            }
+        {  
+                if (player.playerSprite.getGlobalBounds().intersects(blocks[i].getGlobalBounds())) {
+                    
+                    drawCollision2(blocks[i], player , blockMap[i]);
+                    player.move_x = 0;
+                    player.move_y = 0;   
+                }
         }
         
+
         window.clear();
         window.draw(background);
         window.draw(player.playerSprite);
@@ -232,7 +233,7 @@ void gamePlayPage(RenderWindow& window) {
         /**/
             for (int i = 0; i < noCollisions; i++)
             {
-                window.draw(blocks[i]);
+                //window.draw(blocks[i]);
             }
         
         
@@ -313,15 +314,16 @@ void drawCollision2(RectangleShape block, Player &player , char dr) {
     
            if (block.getSize().x == collisionThinkness) {
                 if (dr == 'r')
-                    player.rect.left = block.getPosition().x - 35;
+                    player.rect.left = block.getPosition().x - 39;
+                    
                 else if (dr == 'l')
-                    player.rect.left = block.getPosition().x;
+                    player.rect.left = block.getPosition().x + 5;
            }
            else if (block.getSize().y == collisionThinkness) {
                 if (dr == 'r')
-                    player.rect.top = block.getPosition().y - 35;
+                    player.rect.top = block.getPosition().y - 39;
                 else if (dr == 'l')
-                    player.rect.top = block.getPosition().y;
+                    player.rect.top = block.getPosition().y + 5;
            }
            
     
